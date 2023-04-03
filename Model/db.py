@@ -21,7 +21,7 @@ def get_conn_cur():
     return conn, cur
 
 
-def create_chapter_names(chapter_names):
+def create_chapter_names_in_db(chapter_names):
     conn, cur = get_conn_cur()
   
     cur.executemany(f'INSERT INTO {TABLE_NAME} (chapter_name) VALUES (?)', chapter_names)
