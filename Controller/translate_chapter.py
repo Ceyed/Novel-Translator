@@ -12,7 +12,7 @@ from Utils.log import log, done_log
 
 
 def translate_chapter(driver, link):
-    log(f'Translate chapter: {link[0]}')
+    # log(f'Translate chapter: {link[0]}')
 
     google_translate_url = "https://translate.google.com/?hl=en&tab=TT&sl=auto&tl=en&op=translate"
 
@@ -43,8 +43,8 @@ def translate_chapter(driver, link):
     with open(f'Chapters/{link[0]}.txt', 'w') as file:
         file.write(pyperclip.paste())
 
-    done_log()
+    # done_log()
 
-    log('Marking chapter\'s translation in db')
+    # log('Marking chapter\'s translation in db')
     set_translation(link[0])
-    done_log()
+    # done_log()

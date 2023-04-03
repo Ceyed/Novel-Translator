@@ -1,6 +1,6 @@
 # Files
 test.py
-story_translation_record.sqlite3
+*.sqlite3
 
 # Folder
 __pycache__

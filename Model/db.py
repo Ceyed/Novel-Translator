@@ -25,7 +25,7 @@ def get_conn_cur():
 def create_chapter_names_in_db(chapter_names):
     conn, cur = get_conn_cur()
   
-    cur.executemany(f'INSERT INTO {TABLE_NAME} (chapter_name) VALUES (?)', chapter_names)
+    cur.executemany(f'INSERT INTO {TABLE_NAME} (chapter_name, chapter_link) VALUES (?, ?)', chapter_names)
 
     conn.commit()
     conn.close()
@@ -34,9 +34,18 @@ def create_chapter_names_in_db(chapter_names):
 def set_translation(chapter_name):
     conn, cur = get_conn_cur()
   
-    cur.execute(f'UPDATE chapters SET done_translation=1 WHERE chapter_name="{chapter_name}"')
+    cur.execute(f'UPDATE {TABLE_NAME} SET done_translation=1 WHERE chapter_name="{chapter_name}"')
 
     conn.commit()
     conn.close()
 
 
+def load_links_db():
+    conn, cur = get_conn_cur()
+  
+    data = cur.execute(f'SELECT chapter_name, chapter_link, done_translation from {TABLE_NAME}').fetchall()
+
+    conn.commit()
+    conn.close()
+
+    return data
