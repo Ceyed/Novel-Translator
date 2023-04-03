@@ -1,5 +1,6 @@
 # Files
 test.py
+story_translation_record.sqlite3
 
 # Folder
 __pycache__
