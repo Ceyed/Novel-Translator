@@ -11,8 +11,7 @@ from Utils.log import single_log, log, done_log
 
 
 
-def main():
-    url = 'https://www.69shu.com/46488/'
+def main(url):
     starting_chapter = 0
 
     log('Loading saved data')
@@ -41,4 +40,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    url = 'https://www.69shu.com/46488/'
+    main(url)
