@@ -5,7 +5,8 @@ TABLE_NAME = 'chapters'
 
 CREATE_TABLE_COMMAND = f'''CREATE TABLE IF NOT EXISTS '{TABLE_NAME}' (
     'id'	            INTEGER,
-    'chapter_name'	    INTEGER,
+    'chapter_name'	    TEXT,
+    'chapter_link'	    TEXT,
     'done_translation'	INTEGER DEFAULT 0 COLLATE BINARY,
     PRIMARY KEY('id' AUTOINCREMENT)
 );'''

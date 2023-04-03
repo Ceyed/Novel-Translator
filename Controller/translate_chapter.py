@@ -7,10 +7,13 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
 from Model.db import set_translation
+from Utils.log import log, done_log
 
 
 
 def translate_chapter(driver, link):
+    log(f'Translate chapter: {link[0]}')
+
     google_translate_url = "https://translate.google.com/?hl=en&tab=TT&sl=auto&tl=en&op=translate"
 
     chapter_page = requests.get(link[1])
@@ -39,5 +42,9 @@ def translate_chapter(driver, link):
 
     with open(f'Chapters/{link[0]}.txt', 'w') as file:
         file.write(pyperclip.paste())
-    
+
+    done_log()
+
+    log('Marking chapter\'s translation in db')
     set_translation(link[0])
+    done_log()

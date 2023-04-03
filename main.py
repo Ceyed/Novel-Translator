@@ -7,6 +7,7 @@ from Controller.chapter_links import chapters_links
 from Controller.translate_chapter import translate_chapter
 from Controller.translate_chapter_name import translate_chapter_names
 from Model.db import create_chapter_names_in_db, set_translation
+from Utils.log import single_log
 
 
 
@@ -15,7 +16,9 @@ def main():
     links = chapters_links(url)
     links = translate_chapter_names(links)
     create_chapter_names_in_db([(link[0], ) for link in links])
+    
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    single_log('Translating Chapters')
     for index in tqdm(range(0, len(links))):
         translate_chapter(driver, links[index])
 

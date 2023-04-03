@@ -4,9 +4,13 @@ from lxml import etree
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
+from Utils.log import log, done_log
+
 
 
 def chapters_links(url):
+    log('Getting all chapters links')
+
     xpath = """//*[(@id = "catalog")]//a"""
     chapter_xpath = """//*[contains(concat( " ", @class, " " ), concat( " ", "txtnav", " " ))]"""
 
@@ -22,4 +26,6 @@ def chapters_links(url):
     soup = BeautifulSoup(page.text, 'html.parser')
     dom = etree.HTML(str(soup))
     links = dom.xpath(xpath)
+
+    done_log()
     return links
