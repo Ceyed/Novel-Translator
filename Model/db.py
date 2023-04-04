@@ -5,7 +5,7 @@ TABLE_NAME = 'chapters'
 
 CREATE_TABLE_COMMAND = f'''CREATE TABLE IF NOT EXISTS '{TABLE_NAME}' (
     'id'	            INTEGER,
-    'chapter_name'	    TEXT,
+    'chapter_name'	    TEXT UNIQUE,
     'chapter_link'	    TEXT,
     'done_translation'	INTEGER DEFAULT 0 COLLATE BINARY,
     PRIMARY KEY('id' AUTOINCREMENT)
@@ -49,3 +49,12 @@ def load_links_db():
     conn.close()
 
     return data
+
+
+def clear_table():
+    conn, cur = get_conn_cur()
+  
+    data = cur.execute(f'DELETE FROM {TABLE_NAME}')
+
+    conn.commit()
+    conn.close()

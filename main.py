@@ -6,8 +6,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 from Controller.chapter_links import chapters_links
 from Controller.translate_chapter import translate_chapter
 from Controller.translate_chapter_name import translate_chapter_names
-from Model.db import create_chapter_names_in_db, set_translation, load_links_db
-from Utils.log import single_log, log, done_log
+from Model.db import create_chapter_names_in_db, set_translation, load_links_db, clear_table
+from Utils.log import single_log, log, done_log, tqdm_desc
 
 
 
@@ -20,11 +20,12 @@ def main(url):
     links = chapters_links(url)
 
     if len(links) != len(old_links):
-        single_log('Loaded data is not complete. Getting links again')
+        single_log('Loaded data is not complete. Clearing database and getting links again')
+        clear_table()
         links = translate_chapter_names(links)
         create_chapter_names_in_db([(link[0], link[1]) for link in links])
     else:
-        single_log('Finding how many links has been translated before')
+        single_log('Loaded data is good. Finding how many links has been translated before')
         for index, link in enumerate(old_links):
             if link[2] == 0:
                 starting_chapter = index
@@ -32,8 +33,7 @@ def main(url):
         links = old_links
 
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-    single_log(f'Translating Chapters (Will start from {links[starting_chapter][0]})')
-    for index in tqdm(range(0, len(links))):
+    for index in tqdm(range(0, len(links)), desc=tqdm_desc(f'Translating Chapters (Will start from {links[starting_chapter][0]})')):
         if index < starting_chapter:
             continue
         translate_chapter(driver, links[index])
