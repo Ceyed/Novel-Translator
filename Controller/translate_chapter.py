@@ -7,7 +7,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
 from Model.db import set_translation
-from Utils.log import log, done_log
+from Utils.log import done_log, log
 
 
 
@@ -30,7 +30,12 @@ def translate_chapter(driver, link):
 
     actions = ActionChains(driver)
     for sentence in sentences:
-        actions.send_keys(sentence).perform()
+        pyperclip.copy(sentence)
+        actions.key_down(Keys.CONTROL).perform()
+        actions.send_keys('v').perform()
+        actions.key_up(Keys.CONTROL).perform()
+
+        # actions.send_keys(sentence).perform()
         actions.send_keys(Keys.ENTER).perform()
     sleep(5)
 
@@ -43,8 +48,4 @@ def translate_chapter(driver, link):
     with open(f'Chapters/{link[0]}.txt', 'w') as file:
         file.write(pyperclip.paste())
 
-    # done_log()
-
-    # log('Marking chapter\'s translation in db')
     set_translation(link[0])
-    # done_log()

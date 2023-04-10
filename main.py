@@ -1,3 +1,5 @@
+import os
+
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from tqdm import tqdm
@@ -32,6 +34,11 @@ def main(url):
                 break
         links = old_links
 
+    # * Check if folder exists
+    if not os.path.exists('./Chapters'):
+        os.makedirs('./Chapters')
+
+    # * Start translating chapters
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     for index in tqdm(range(0, len(links)), desc=tqdm_desc(f'Translating Chapters (Will start from {links[starting_chapter][0]})')):
         if index < starting_chapter:
